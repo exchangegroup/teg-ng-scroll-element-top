@@ -1,5 +1,5 @@
 angular.module('TedNgScrollElementTop', []).
-factory('tegNgScrollElementTop', (tegJQ) ->
+factory('tegNgScrollElementTop', ($window) ->
   distanceFromTop: 10
   screenHeightThreshold: 600
 
@@ -8,14 +8,23 @@ factory('tegNgScrollElementTop', (tegJQ) ->
     return unless @scrollingIsNeeded($element)
     @scroll $element
 
-  scroll: ($element) ->
-    scrollTo = $element.offset().top - @distanceFromTop
-    tegJQ.htmlAndBody.animate({scrollTop: scrollTo}, 300)
+  scroll: (element) ->
+    scrollTo = element.getBoundingClientRect().top - @distanceFromTop
+    $window.scrollTo(@getScrollLeft(), scrollTo)
 
-  screenIsShort: -> tegJQ.window.height() < @screenHeightThreshold
+  screenIsShort: -> @screenHeight() < @screenHeightThreshold
 
-  scrollingIsNeeded: ($element) ->
-    scrollTop = tegJQ.window.scrollTop()
-    elementTop = $element.offset().top
+  scrollingIsNeeded: (element) ->
+    scrollTop = @getScrollTop()
+    elementTop = element.getBoundingClientRect().top
     elementTop - scrollTop != @distanceFromTop
+
+  getScrollTop: -> document.documentElement.scrollTop
+  getScrollLeft: -> document.documentElement.scrollLeft
+
+  screenHeight: ->
+    if isNaN($window.innerHeight)
+      $window.document.documentElement.clientHeight
+    else
+      $window.innerHeight
 )
