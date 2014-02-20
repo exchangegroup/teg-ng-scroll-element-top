@@ -30,12 +30,17 @@ module.exports = function(grunt) {
       }
     },
     watch: {
+      coffee: {
+        files: ['src/{,*/}*.coffee'],
+        tasks: ['build']
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          'app/{,*/}*.html'
+          'app/{,*/}*.html',
+          '<%= pkg.name %>.min.js'
         ]
       }
     },
@@ -50,6 +55,7 @@ module.exports = function(grunt) {
         options: {
           open: true,
           base: [
+            'dist',
             'app'
           ]
         }
@@ -57,9 +63,11 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('serve', ['connect:livereload', 'watch']);
+  grunt.registerTask('build', ['coffee', 'ngmin', 'uglify']);
+
+  grunt.registerTask('serve', ['build', 'connect:livereload', 'watch']);
 
   grunt.registerTask('test', ['karma']);
 
-  grunt.registerTask('default', ['coffee', 'ngmin', 'uglify']);
+  grunt.registerTask('default', ['test', 'build']);
 };
