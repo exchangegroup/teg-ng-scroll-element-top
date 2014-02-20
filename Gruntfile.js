@@ -29,7 +29,16 @@ module.exports = function(grunt) {
         singleRun: true
       }
     },
-
+    watch: {
+      livereload: {
+        options: {
+          livereload: '<%= connect.options.livereload %>'
+        },
+        files: [
+          'app/{,*/}*.html'
+        ]
+      }
+    },
     connect: {
       options: {
         port: 9000,
