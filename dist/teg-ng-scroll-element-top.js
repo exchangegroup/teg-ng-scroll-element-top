@@ -1,7 +1,7 @@
 (function () {
   angular.module('TedNgScrollElementTop', []).factory('tegNgScrollElementTop', [
-    'tegJQ',
-    function (tegJQ) {
+    '$window',
+    function ($window) {
       return {
         distanceFromTop: 10,
         screenHeightThreshold: 600,
@@ -14,19 +14,32 @@
           }
           return this.scroll($element);
         },
-        scroll: function ($element) {
+        scroll: function (element) {
           var scrollTo;
-          scrollTo = $element.offset().top - this.distanceFromTop;
-          return tegJQ.htmlAndBody.animate({ scrollTop: scrollTo }, 300);
+          scrollTo = element.getBoundingClientRect().top - this.distanceFromTop;
+          return $window.scrollTo(this.getScrollLeft(), scrollTo);
         },
         screenIsShort: function () {
-          return tegJQ.window.height() < this.screenHeightThreshold;
+          return this.screenHeight() < this.screenHeightThreshold;
         },
-        scrollingIsNeeded: function ($element) {
+        scrollingIsNeeded: function (element) {
           var elementTop, scrollTop;
-          scrollTop = tegJQ.window.scrollTop();
-          elementTop = $element.offset().top;
+          scrollTop = this.getScrollTop();
+          elementTop = element.getBoundingClientRect().top;
           return elementTop - scrollTop !== this.distanceFromTop;
+        },
+        getScrollTop: function () {
+          return $window.document.documentElement.scrollTop;
+        },
+        getScrollLeft: function () {
+          return $window.document.documentElement.scrollLeft;
+        },
+        screenHeight: function () {
+          if (isNaN($window.innerHeight)) {
+            return $window.document.documentElement.clientHeight;
+          } else {
+            return $window.innerHeight;
+          }
         }
       };
     }
