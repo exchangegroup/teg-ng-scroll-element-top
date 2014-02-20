@@ -14,9 +14,10 @@ describe 'TegNgScrollElementTop helper', ->
 
   beforeEach(inject((@tegNgScrollElementTop) ->))
 
-  beforeEach -> spyOn(@tegNgScrollElementTop, 'getScrollTop').andReturn 300
-
   describe 'is scrolling needed?', ->
+    beforeEach ->
+      spyOn(@tegNgScrollElementTop, 'getScrollTop').andReturn 300
+
     it 'should scoll', ->
       @elementTop = 350
       result = @tegNgScrollElementTop.scrollingIsNeeded(@element)
@@ -27,32 +28,32 @@ describe 'TegNgScrollElementTop helper', ->
       result = @tegNgScrollElementTop.scrollingIsNeeded(@element)
       expect(result).toBe false
 
-  # describe 'scroll to top if needed', ->
-  #   describe 'when screen is short', ->
-  #     beforeEach -> spyOn(@tegScrollElementTop, 'screenIsShort').andReturn true
+  describe 'scroll to top if needed', ->
+    describe 'when screen is short', ->
+      beforeEach -> spyOn(@tegNgScrollElementTop, 'screenIsShort').andReturn true
 
-  #     it 'checks if scrolling needed', ->
-  #       spyOn @tegScrollElementTop, 'scrollingIsNeeded'
-  #       @tegScrollElementTop.scrollIfNeeded @element
-  #       expect(@tegScrollElementTop.scrollingIsNeeded).toHaveBeenCalledWith @element
+      it 'checks if scrolling needed', ->
+        spyOn @tegNgScrollElementTop, 'scrollingIsNeeded'
+        @tegNgScrollElementTop.scrollIfNeeded @element
+        expect(@tegNgScrollElementTop.scrollingIsNeeded).toHaveBeenCalledWith @element
 
-  #   describe 'when screen is tall', ->
-  #     beforeEach -> spyOn(@tegScrollElementTop, 'screenIsShort').andReturn false
+    describe 'when screen is tall', ->
+      beforeEach -> spyOn(@tegNgScrollElementTop, 'screenIsShort').andReturn false
 
-  #     it 'does nothing', ->
-  #       spyOn @tegScrollElementTop, 'scrollingIsNeeded'
-  #       @tegScrollElementTop.scrollIfNeeded @element
-  #       expect(@tegScrollElementTop.scrollingIsNeeded).not.toHaveBeenCalled()
+      it 'does nothing', ->
+        spyOn @tegNgScrollElementTop, 'scrollingIsNeeded'
+        @tegNgScrollElementTop.scrollIfNeeded @element
+        expect(@tegNgScrollElementTop.scrollingIsNeeded).not.toHaveBeenCalled()
 
-  #   describe 'pulls to to when screen is short and scrolling is needed', ->
-  #     beforeEach ->
-  #       spyOn(@tegScrollElementTop, 'screenIsShort').andReturn true
-  #       spyOn(@tegScrollElementTop, 'scrollingIsNeeded').andReturn true
-  #       spyOn(@tegScrollElementTop, 'scroll').andReturn true
+    describe 'pulls to to when screen is short and scrolling is needed', ->
+      beforeEach ->
+        spyOn(@tegNgScrollElementTop, 'screenIsShort').andReturn true
+        spyOn(@tegNgScrollElementTop, 'scrollingIsNeeded').andReturn true
+        spyOn(@tegNgScrollElementTop, 'scroll').andReturn true
 
-  #     it '', ->
-  #       @tegScrollElementTop.scrollIfNeeded @element
-  #       expect(@tegScrollElementTop.scroll).toHaveBeenCalledWith @element
+      it '', ->
+        @tegNgScrollElementTop.scrollIfNeeded @element
+        expect(@tegNgScrollElementTop.scroll).toHaveBeenCalledWith @element
 
   describe 'check if screen is short', ->
     it 'screen is short', ->
@@ -75,11 +76,9 @@ describe 'TegNgScrollElementTop helper', ->
 
       expect(@tegNgScrollElementTop.screenHeight()).toBe 312
 
-
   it 'scroll element to top of the page', ->
-    # @element.offset = -> { top: 200 }
-    # @mockJQ.htmlAndBody = { animate: -> }
-    # spyOn @mockJQ.htmlAndBody, 'animate'
-    # @tegNgScrollElementTop.scroll(@element)
-    # expect(@mockJQ.htmlAndBody.animate).toHaveBeenCalledWith({ scrollTop : 190 }, 300)
-
+    spyOn(@tegNgScrollElementTop, 'getScrollLeft').andReturn 7
+    @mockWindow.scrollTo = jasmine.createSpy()
+    @elementTop = 200
+    @tegNgScrollElementTop.scroll @element
+    expect(@mockWindow.scrollTo).toHaveBeenCalledWith(7, 190)

@@ -19,8 +19,8 @@ factory('tegNgScrollElementTop', ($window) ->
     elementTop = element.getBoundingClientRect().top
     elementTop - scrollTop != @distanceFromTop
 
-  getScrollTop: -> document.documentElement.scrollTop
-  getScrollLeft: -> document.documentElement.scrollLeft
+  getScrollTop: -> $window.document.documentElement.scrollTop
+  getScrollLeft: -> $window.document.documentElement.scrollLeft
 
   screenHeight: ->
     if isNaN($window.innerHeight)
