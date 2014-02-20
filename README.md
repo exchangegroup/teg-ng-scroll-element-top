@@ -3,6 +3,8 @@
 Scrolls the page so the element appears on top.
 Does it on small screens only.
 
+This is useful for input fields with autocomplete on small screens because it allows you to see more content under the input.
+
 ## Install
 
     bower install git@github.com:bikeexchange/teg-ng-scroll-element-top.git
