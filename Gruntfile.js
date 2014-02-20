@@ -28,8 +28,27 @@ module.exports = function(grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    connect: {
+      options: {
+        port: 9000,
+        // Change this to '0.0.0.0' to access the server from outside.
+        hostname: 'localhost',
+        livereload: 35729
+      },
+      livereload: {
+        options: {
+          open: true,
+          base: [
+            'app'
+          ]
+        }
+      },
     }
   });
+
+  grunt.registerTask('serve', ['connect:livereload', 'watch']);
 
   grunt.registerTask('test', ['karma']);
 
