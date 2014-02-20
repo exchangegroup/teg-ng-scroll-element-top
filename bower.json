@@ -1,0 +1,19 @@
+{
+  "name": "teg-ng-scroll-element-top",
+  "main": "dist/teg-ng-scroll-element-top.min.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "angular": "1.2.13",
+    "angular-mocks": "1.2.13"
+  },
+  "ignore": [
+    ".*",
+    "test",
+    "src",
+    "karma*",
+    "package.json",
+    "Gruntfile.js"
+  ],
+  "private": true
+}
