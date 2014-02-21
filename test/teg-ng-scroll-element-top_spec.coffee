@@ -15,22 +15,22 @@ describe 'TegNgScrollElementTop helper', ->
   beforeEach(inject((@tegNgScrollElementTop) ->))
 
   describe 'is scrolling needed?', ->
-    beforeEach ->
-      spyOn(@tegNgScrollElementTop, 'getScrollTop').andReturn 300
-
     it 'should scoll', ->
-      @elementTop = 350
+      @elementTop = 200
       result = @tegNgScrollElementTop.scrollingIsNeeded(@element)
       expect(result).toBe true
 
     it 'should not scoll', ->
-      @elementTop = 310
+      @elementTop = 10
       result = @tegNgScrollElementTop.scrollingIsNeeded(@element)
       expect(result).toBe false
 
   describe 'scroll to top if needed', ->
+    beforeEach -> spyOn @tegNgScrollElementTop, 'scroll'
+
     describe 'when screen is short', ->
-      beforeEach -> spyOn(@tegNgScrollElementTop, 'screenIsShort').andReturn true
+      beforeEach ->
+        spyOn(@tegNgScrollElementTop, 'screenIsShort').andReturn true
 
       it 'checks if scrolling needed', ->
         spyOn @tegNgScrollElementTop, 'scrollingIsNeeded'
@@ -45,11 +45,10 @@ describe 'TegNgScrollElementTop helper', ->
         @tegNgScrollElementTop.scrollIfNeeded @element
         expect(@tegNgScrollElementTop.scrollingIsNeeded).not.toHaveBeenCalled()
 
-    describe 'pulls to to when screen is short and scrolling is needed', ->
+    describe 'scrolls when screen is short and scrolling is needed', ->
       beforeEach ->
         spyOn(@tegNgScrollElementTop, 'screenIsShort').andReturn true
         spyOn(@tegNgScrollElementTop, 'scrollingIsNeeded').andReturn true
-        spyOn(@tegNgScrollElementTop, 'scroll').andReturn true
 
       it '', ->
         @tegNgScrollElementTop.scrollIfNeeded @element
@@ -77,8 +76,27 @@ describe 'TegNgScrollElementTop helper', ->
       expect(@tegNgScrollElementTop.screenHeight()).toBe 312
 
   it 'scroll element to top of the page', ->
+    @elementTop = 99
+    spyOn(@tegNgScrollElementTop, 'getScrollTop').andReturn 57
     spyOn(@tegNgScrollElementTop, 'getScrollLeft').andReturn 7
     @mockWindow.scrollTo = jasmine.createSpy()
-    @elementTop = 200
+
     @tegNgScrollElementTop.scroll @element
-    expect(@mockWindow.scrollTo).toHaveBeenCalledWith(7, 190)
+
+    expect(@mockWindow.scrollTo).toHaveBeenCalledWith(7, 146)
+
+  it 'get page top scrolling position', ->
+    @mockWindow.document =
+      documentElement:
+        scrollTop: 421
+
+    result = @tegNgScrollElementTop.getScrollTop()
+    expect(result).toBe 421
+
+  it 'get page left scrolling position', ->
+    @mockWindow.document =
+      documentElement:
+        scrollLeft: 132
+
+    result = @tegNgScrollElementTop.getScrollLeft()
+    expect(result).toBe 132

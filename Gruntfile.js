@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         },
         files: [
           'app/{,*/}*.html',
-          '<%= pkg.name %>.min.js'
+          'dist/<%= pkg.name %>.min.js'
         ]
       }
     },

@@ -1,26 +1,28 @@
+"use strict"
+
 angular.module('TedNgScrollElementTop', []).
 factory('tegNgScrollElementTop', ($window) ->
   distanceFromTop: 10
   screenHeightThreshold: 600
 
-  scrollIfNeeded: ($element) ->
+  scrollIfNeeded: (element) ->
     return unless @screenIsShort()
-    return unless @scrollingIsNeeded($element)
-    @scroll $element
+    return unless @scrollingIsNeeded(element)
+    @scroll element
 
   scroll: (element) ->
-    scrollTo = element.getBoundingClientRect().top - @distanceFromTop
+    scrollTo = @getScrollTop() + @getElementTopBound(element) - @distanceFromTop
     $window.scrollTo(@getScrollLeft(), scrollTo)
 
   screenIsShort: -> @screenHeight() < @screenHeightThreshold
 
-  scrollingIsNeeded: (element) ->
-    scrollTop = @getScrollTop()
-    elementTop = element.getBoundingClientRect().top
-    elementTop - scrollTop != @distanceFromTop
+  scrollingIsNeeded: (element) -> @getElementTopBound(element) != @distanceFromTop
 
   getScrollTop: -> $window.document.documentElement.scrollTop
   getScrollLeft: -> $window.document.documentElement.scrollLeft
+
+  # getBoundingClientRect() includes page scrolling
+  getElementTopBound: (element) -> Math.round(element.getBoundingClientRect().top)
 
   screenHeight: ->
     if isNaN($window.innerHeight)
@@ -28,3 +30,7 @@ factory('tegNgScrollElementTop', ($window) ->
     else
       $window.innerHeight
 )
+.directive 'tegNgScrollElementTop', (tegNgScrollElementTop) ->
+  link: (scope, element, attrs) ->
+    element.bind 'keydown', (event) ->
+      tegNgScrollElementTop.scrollIfNeeded element[0]
