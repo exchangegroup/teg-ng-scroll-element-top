@@ -1,7 +1,6 @@
 # Overview
 
-Scrolls the page so the element appears on top.
-Does it on small screens only.
+Scrolls the page so the element appears on top on small screens.
 
 This is useful for input fields with autocomplete on small screens because it allows you to see more content under the input.
 
@@ -21,7 +20,7 @@ Add `TegNgOnEnter` module to your app's dependencies:
 
 From JavaScript:
 
-    tegNgScrollElementTop.scrollIfNeeded(domElement);
+    tegNgScrollElementTop.scrollIfNeeded(element);
 
 Or in HTML:
 
@@ -40,6 +39,10 @@ Setup:
 Test:
 
     grunt test
+
+View demo in browser:
+
+    grunt serve
 
 Build:
 
