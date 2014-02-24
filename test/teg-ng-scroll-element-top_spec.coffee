@@ -12,7 +12,7 @@ describe 'TegNgScrollElementTop helper', ->
       $provide.value '$window', @mockWindow
       null
 
-  beforeEach(inject((@tegNgScrollElementTop) ->))
+  beforeEach(inject((@tegNgScrollElementTop, @$timeout) ->))
 
   describe 'is scrolling needed?', ->
     it 'should scoll', ->
@@ -82,6 +82,7 @@ describe 'TegNgScrollElementTop helper', ->
     @mockWindow.scrollTo = jasmine.createSpy()
 
     @tegNgScrollElementTop.scroll @element
+    @$timeout.flush()
 
     expect(@mockWindow.scrollTo).toHaveBeenCalledWith(7, 146)
 

@@ -1,9 +1,9 @@
 "use strict"
 
 angular.module('TedNgScrollElementTop', []).
-factory('tegNgScrollElementTop', ($window) ->
+factory('tegNgScrollElementTop', ($window, $timeout) ->
   distanceFromTop: 10
-  screenHeightThreshold: 600
+  screenHeightThreshold: 700
 
   scrollIfNeeded: (element) ->
     return unless @screenIsShort()
@@ -12,7 +12,11 @@ factory('tegNgScrollElementTop', ($window) ->
 
   scroll: (element) ->
     scrollTo = @getScrollTop() + @getElementTopBound(element) - @distanceFromTop
-    $window.scrollTo(@getScrollLeft(), scrollTo)
+
+    # $timeout is needed to make it work on Android 4.0.2 stock browser
+    $timeout((=>
+      $window.scrollTo(@getScrollLeft(), scrollTo)
+    ), 0)
 
   screenIsShort: -> @screenHeight() < @screenHeightThreshold
 

@@ -2,10 +2,11 @@
   'use strict';
   angular.module('TedNgScrollElementTop', []).factory('tegNgScrollElementTop', [
     '$window',
-    function ($window) {
+    '$timeout',
+    function ($window, $timeout) {
       return {
         distanceFromTop: 10,
-        screenHeightThreshold: 600,
+        screenHeightThreshold: 700,
         scrollIfNeeded: function (element) {
           if (!this.screenIsShort()) {
             return;
@@ -18,7 +19,11 @@
         scroll: function (element) {
           var scrollTo;
           scrollTo = this.getScrollTop() + this.getElementTopBound(element) - this.distanceFromTop;
-          return $window.scrollTo(this.getScrollLeft(), scrollTo);
+          return $timeout(function (_this) {
+            return function () {
+              return $window.scrollTo(_this.getScrollLeft(), scrollTo);
+            };
+          }(this), 0);
         },
         screenIsShort: function () {
           return this.screenHeight() < this.screenHeightThreshold;
