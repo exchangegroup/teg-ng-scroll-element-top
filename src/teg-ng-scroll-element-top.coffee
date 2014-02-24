@@ -18,8 +18,8 @@ factory('tegNgScrollElementTop', ($window) ->
 
   scrollingIsNeeded: (element) -> @getElementTopBound(element) != @distanceFromTop
 
-  getScrollTop: -> $window.document.documentElement.scrollTop
-  getScrollLeft: -> $window.document.documentElement.scrollLeft
+  getScrollTop: -> $window.pageYOffset || $window.document.documentElement.scrollTop
+  getScrollLeft: -> $window.pageXOffset || $window.document.documentElement.scrollLeft
 
   # getBoundingClientRect() includes page scrolling
   getElementTopBound: (element) -> Math.round(element.getBoundingClientRect().top)

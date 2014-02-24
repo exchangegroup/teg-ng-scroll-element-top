@@ -27,10 +27,10 @@
           return this.getElementTopBound(element) !== this.distanceFromTop;
         },
         getScrollTop: function () {
-          return $window.document.documentElement.scrollTop;
+          return $window.pageYOffset || $window.document.documentElement.scrollTop;
         },
         getScrollLeft: function () {
-          return $window.document.documentElement.scrollLeft;
+          return $window.pageXOffset || $window.document.documentElement.scrollLeft;
         },
         getElementTopBound: function (element) {
           return Math.round(element.getBoundingClientRect().top);
