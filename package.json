@@ -1,6 +1,10 @@
 {
   "name": "teg-ng-scroll-element-top",
   "version": "0.0.1",
+  "main": "dist/teg-ng-scroll-element-top.js",
+  "dependencies": {
+    "angular": "^1.2.13"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-coffee": "~0.10.1",
