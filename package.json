@@ -2,6 +2,7 @@
   "name": "teg-ng-scroll-element-top",
   "version": "0.0.1",
   "main": "dist/teg-ng-scroll-element-top.js",
+  "repository": "https://github.com/exchangegroup/teg-ng-scroll-element-top",
   "dependencies": {
     "angular": "^1.2.13"
   },
